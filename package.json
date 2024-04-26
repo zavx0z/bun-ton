@@ -4,13 +4,19 @@
   "devDependencies": {
     "@types/bun": "latest",
     "@ton-community/func-js": "^0.7.0",
-    "ton-core": "^0.53.0",
-    "ton-crypto": "^3.2.0"
+    "@ton-community/sandbox": "^0.11.0",
+    "@ton-community/test-utils": "^0.3.0",
+    "@ton/core": "^0.56.3",
+    "@ton/crypto": "^3.2.0",
+    "@ton/sandbox": "^0.18.0",
+    "@ton/ton": "^13.11.1",
+    "typescript": "^5.4.5"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "scripts": {
-    "compile": "bun ./scripts/compile.ts"
+    "compile": "bun ./scripts/compile.ts",
+    "test": "bun run compile && bun test"
   }
 }
