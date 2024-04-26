@@ -1,6 +1,5 @@
 {
   "name": "bun_my_first_contract",
-  "module": "index.ts",
   "type": "module",
   "devDependencies": {
     "@types/bun": "latest",
