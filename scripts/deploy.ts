@@ -21,14 +21,14 @@ async function deployScript() {
     code: codeCell,
     data: dataCell,
   })
+  console.log(`Развертывание в сети ${process.env.TESTNET ? "TESTNET" : "MAINNET"}`)
   console.log(`Адрес контракта: ${address.toString()}`)
   let link =
-    "https://test.tonhub.com/transfer/" +
-    address.toString({ testOnly: true }) +
-    "?" +
+    `https://${process.env.TESTNET ? "test." : ""}tonhub.com/transfer/` +
+    `${address.toString({ testOnly: !!process.env.TESTNET })}?` +
     qs.stringify({
-      text: "Deploy contract",
-      amount: toNano("0.44").toString(10),
+      text: "MetaFor - контракт для тестирования",
+      amount: toNano("0.4444").toString(10),
       init: stateInitCell.toBoc({ idx: false }).toString("base64"),
     })
   qrcode.generate(link, { small: true }, (code) => {

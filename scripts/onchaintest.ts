@@ -6,6 +6,9 @@ import qs from "qs"
 import qrcode from "qrcode-terminal"
 
 async function onchaintest() {
+  console.log("========================")
+  console.log(`Тестирование в сети ${process.env.TESTNET ? "TESTNET" : "MAINNET"}`)
+  
   const codeCell = Cell.fromBoc(Buffer.from(hex, "hex"))[0]
   const dataCell = new Cell()
 
@@ -13,7 +16,7 @@ async function onchaintest() {
     code: codeCell,
     data: dataCell,
   })
-  const endpoint = await getHttpV4Endpoint({ network: "testnet" })
+  const endpoint = await getHttpV4Endpoint({ network: process.env.TESTNET ? "testnet" : "mainnet" })
   const client4 = new TonClient4({ endpoint })
   const latestBlock = await client4.getLastBlock()
   let status = await client4.getAccount(latestBlock.last.seqno, address)
@@ -22,9 +25,8 @@ async function onchaintest() {
     return
   }
   let link =
-    "https://test.tonhub.com/transfer/" +
-    address.toString({ testOnly: true }) +
-    "?" +
+    `https://${process.env.TESTNET ? "test." : ""}tonhub.com/transfer/` +
+    `${address.toString({ testOnly: !!process.env.TESTNET })}?` +
     qs.stringify({
       text: "MetaFor",
       amount: toNano("0.4444").toString(10),
@@ -52,6 +54,5 @@ async function onchaintest() {
       resent_sender_archive = most_recent_sender
     }
   }, 2000)
-  
 }
 onchaintest()

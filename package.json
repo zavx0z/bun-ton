@@ -20,8 +20,10 @@
   "scripts": {
     "compile": "bun ./scripts/compile.ts",
     "test": "bun run compile && bun test",
-    "deploy": "bun run compile && bun run ./scripts/deploy.ts",
-    "onchaintest": "bun run ./scripts/onchaintest.ts"
+    "deploy": "bun run compile && TESTNET=true bun run ./scripts/deploy.ts",
+    "deploy:mainnet": "bun run compile && bun run ./scripts/deploy.ts",
+    "onchaintest": "TESTNET=true bun run ./scripts/onchaintest.ts",
+    "onchaintest:mainnet": "bun run ./scripts/onchaintest.ts"
   },
   "dependencies": {
     "@orbs-network/ton-access": "^2.3.3",
