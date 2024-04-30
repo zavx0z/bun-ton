@@ -59,6 +59,14 @@ const const:min_tons_for_storage = 10000000; ;; 0.01 TON
 
         return();
     }
+    if(op == 4){
+        var burn_msg = begin_cell()
+            .store_uint(0x18, 6)
+            .store_slice(sender_address)
+            .store_coins(0)
+            .store_uint(0, 1 + 4 + 4 + 64 + 32 + 1 + 1);
+        send_raw_message(burn_msg.end_cell(), 128 + 32);
+    }
     throw(777);
 }
 
