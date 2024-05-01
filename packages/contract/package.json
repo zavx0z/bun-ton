@@ -8,7 +8,9 @@
     "@ton/test-utils": "^0.4.2",
     "@ton/ton": "^13.11.1"
   },
-  "scripts": {},
+  "scripts": {
+    "build:contract": "bun build ./wrappers/MainContract.ts --outdir ../app/contracts"
+  },
   "dependencies": {
     "@orbs-network/ton-access": "^2.3.3"
   }

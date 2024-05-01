@@ -6,6 +6,15 @@
         "paths": {
             "https://cdn.jsdelivr.net/npm/@tonconnect/ui@latest/+esm": [
                 "../../node_modules/@tonconnect/ui/lib/index.mjs"
+            ],
+            "https://cdn.jsdelivr.net/npm/@ton/core/+esm": [
+                "../../node_modules/@ton/core/dist/index.js"
+            ],
+            "https://cdn.jsdelivr.net/npm/@orbs-network/ton-access/+esm": [
+                "../../node_modules/@orbs-network/ton-access/lib/index.js"
+            ],
+            "https://cdn.jsdelivr.net/npm/@ton/ton/+esm": [
+                "../../node_modules/@ton/ton/dist/index.js"
             ]
         },
         "baseUrl": "."
