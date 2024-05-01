@@ -1,4 +1,6 @@
-const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+import { TonConnectUI } from "https://cdn.jsdelivr.net/npm/@tonconnect/ui@latest/+esm"
+
+const tonConnectUI = new TonConnectUI({
   manifestUrl: "https://zavx0z.github.io/bun-ton/tonconnect-manifest.json",
   buttonRootId: "ton-connect",
 })
