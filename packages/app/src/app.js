@@ -1,5 +1,5 @@
 const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-  manifestUrl: "tonconnect-manifest.json",
+  manifestUrl: "https://zavx0z.github.io/bun-ton/tonconnect-manifest.json",
   buttonRootId: "ton-connect",
 })
 async function connectToWallet() {
