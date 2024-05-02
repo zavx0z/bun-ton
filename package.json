@@ -2,7 +2,9 @@
   "name": "bun-ton",
   "private": true,
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@orbs-network/ton-access": "^2.3.3",
+    "@ton/ton": "^13.11.1"
   },
   "peerDependencies": {
     "typescript": "^5.4.5"
