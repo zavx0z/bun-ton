@@ -11,3 +11,12 @@ body {
   top: 10px;
   transform: translateX(-50%);
 }
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.card {
+  padding: 10px;
+}

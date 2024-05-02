@@ -4,7 +4,8 @@
   "devDependencies": {
     "@types/bun": "latest",
     "@orbs-network/ton-access": "^2.3.3",
-    "@ton/ton": "^13.11.1"
+    "@ton/ton": "^13.11.1",
+    "@ton/core": "^0.56.3"
   },
   "peerDependencies": {
     "typescript": "^5.4.5"
