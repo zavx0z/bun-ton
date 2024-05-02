@@ -2,13 +2,21 @@
   "name": "bun-ton",
   "private": true,
   "devDependencies": {
-    "@types/bun": "latest",
     "@orbs-network/ton-access": "^2.3.3",
+    "@ton/core": "^0.56.3",
     "@ton/ton": "^13.11.1",
-    "@ton/core": "^0.56.3"
+    "@twa-dev/sdk": "^7.0.0",
+    "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.4.5"
+  },
+  "scripts": {
+    "app:dev": "bun run --filter app dev",
+    "app:build": "bun run --filter app build",
+    "app:preview": "bun run --filter app preview",
+    "bot:start": "bun run --filter bot start",
+    "contract:test": "bun run --filter contract test"
   },
   "workspaces": [
     "packages/*"

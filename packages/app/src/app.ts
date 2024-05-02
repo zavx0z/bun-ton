@@ -3,6 +3,10 @@ import { getHttpEndpoint } from "@orbs-network/ton-access"
 import { TonClient } from "@ton/ton"
 import { Address, OpenedContract, SenderArguments, toNano, fromNano } from "@ton/core"
 import { MainContract } from "contract/wrappers/MainContract"
+import WebApp from "@twa-dev/sdk"
+
+document.getElementById("platform")!.innerHTML = WebApp.platform
+document.getElementById("showAlert")!.onclick = () => WebApp.showAlert("Привет!")
 
 const tonConnectUI = new TonConnectUI({
   manifestUrl: "https://zavx0z.github.io/bun-ton/tonconnect-manifest.json",
@@ -17,12 +21,29 @@ tonConnectUI.uiOptions = {
 tonConnectUI.onStatusChange((status) => {
   console.log("status", status)
   if (status) {
+    // Увеличить счетчик
     const button = document.createElement("button")
     button.id = "increment"
     button.innerHTML = "Увеличить счетчик на 4"
     button.onclick = () => mainContract.sendIncrement(sender, toNano(0.4444), 4)
     document.body.appendChild(button)
-  } else document.body.removeChild(document.getElementById("increment")!)
+    // Увеличить депозит на 4 TON
+    const depositButton = document.createElement("button")
+    depositButton.id = "deposit"
+    depositButton.innerHTML = "Увеличить депозит на 1 TON"
+    depositButton.onclick = () => mainContract.sendDeposit(sender, toNano(1))
+    document.body.appendChild(depositButton)
+    // Снятие c депозита 4 TON
+    const withdrawButton = document.createElement("button")
+    withdrawButton.id = "withdraw"
+    withdrawButton.innerHTML = "Снятие c депозита 4 TON"
+    withdrawButton.onclick = () => mainContract.sendWithdrawalRequest(sender, toNano(0.04), toNano(4))
+    document.body.appendChild(withdrawButton)
+  } else {
+    document.body.removeChild(document.getElementById("increment")!)
+    document.body.removeChild(document.getElementById("deposit")!)
+    document.body.removeChild(document.getElementById("withdraw")!)
+  }
 })
 const sender = {
   send: async (args: SenderArguments) => {

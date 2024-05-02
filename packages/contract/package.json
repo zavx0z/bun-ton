@@ -5,5 +5,9 @@
     "@ton/crypto": "^3.2.0",
     "@ton/sandbox": "^0.19.0",
     "@ton/test-utils": "^0.4.2"
+  },
+  "scripts": {
+    "deploy": "bun --env-file=../../.env blueprint run",
+    "test": "bun --env-file=../../.env test"
   }
 }
