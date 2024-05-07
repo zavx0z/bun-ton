@@ -5,6 +5,7 @@
     "@orbs-network/ton-access": "^2.3.3",
     "@ton/core": "^0.56.3",
     "@ton/ton": "^13.11.1",
+    "@ton/blueprint": "^0.19.1",
     "@twa-dev/sdk": "^7.0.0",
     "@types/bun": "latest"
   },
