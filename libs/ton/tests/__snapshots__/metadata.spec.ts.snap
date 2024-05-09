@@ -1,0 +1,75 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`metadata parseJettonOffchainMetadata 1`] = `
+{
+  "isJettonDeployerFaultyOnChainData": false,
+  "metadata": {
+    "decimals": "8",
+    "description": "Orbit Bridge Token on TON blockchain!",
+    "image": "https://raw.githubusercontent.com/orbit-chain/bridge-token-image/main/ton/wbtc.png",
+    "name": "Orbit Bridge Ton Wrapped BTC",
+    "symbol": "oWBTC",
+  },
+  "persistenceType": "onchain",
+}
+`;
+
+exports[`metadata parseJettonWalletData 1`] = `
+{
+  "isJettonDeployerFaultyOnChainData": false,
+  "metadata": {
+    "decimals": "9",
+    "description": "This is first token of Alefman",
+    "image": "https://alefmanvladimir.github.io/ton-study-counter-front/icon.png",
+    "name": "Alefman Token",
+    "symbol": "ALT",
+  },
+  "persistenceType": "onchain",
+}
+`;
+
+exports[`metadata parseNftMetadata 1`] = `
+{
+  "metadata": {
+    "cover_image": "https://richcats.app/api/collection/1/wide_cover",
+    "description": "Rich Cats is the world's first customizable NFTs exclusively for Telegram.",
+    "image": "https://richcats.app/api/collection/1/image",
+    "name": "Rich Cats",
+  },
+  "persistenceType": "offchain_private_domain",
+}
+`;
+
+exports[`metadata parseNftItemMetadata 1`] = `
+{
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "Female",
+    },
+    {
+      "trait_type": "Attributes",
+      "value": "3",
+    },
+    {
+      "trait_type": "Attribute 1",
+      "value": "Green Earring",
+    },
+    {
+      "trait_type": "Attribute 2",
+      "value": "Blue Baseball Cap",
+    },
+    {
+      "trait_type": "Attribute 3",
+      "value": "Pink Eye Shadows",
+    },
+    {
+      "trait_type": "Background",
+      "value": "Radial 1",
+    },
+  ],
+  "description": "Legendary Punks on the Legendary Blockchain",
+  "image": "https://cloudflare-ipfs.com/ipfs/bafybeifav4uhztrmqmnao2vxtr6g2jbv62zhpmf3njry6mtti5khjtjncu/5.png",
+  "name": "TON Punk #5",
+}
+`;
