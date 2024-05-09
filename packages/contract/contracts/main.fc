@@ -1,4 +1,4 @@
-#include "imports/stdlib.fc";
+#include "../../../libs/ton/func/stdlib.fc";
 
 const const:min_tons_for_storage = 10000000; ;; 0.01 TON
 

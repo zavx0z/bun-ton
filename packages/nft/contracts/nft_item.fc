@@ -1,4 +1,4 @@
-#include "../../../libs/ton/stdlib.fc";
+#include "../../../libs/ton/func/stdlib.fc";
 #include "./imports/op-codes.fc";
 #include "./imports/params.fc";
 ;;
