@@ -1,0 +1,11 @@
+{
+  "name": "MetaFor atom NFT",
+  "description": "Базовая частица",
+  "image": "https://zavx0z.github.io/bun-ton/meta/metafor.png",
+  "attributes": [
+    {
+      "trait_type": "Awesomeness",
+      "value": "Super cool"
+    }
+  ]
+}
