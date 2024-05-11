@@ -1,5 +1,5 @@
 import { Address, toNano } from "@ton/core"
-import { NetworkProvider, sleep } from "@ton/blueprint"
+import { NetworkProvider } from "@ton/blueprint"
 import { randomAddress } from "@ton/test-utils"
 import { NftItem } from "../wrappers/NftItem"
 

@@ -31,8 +31,8 @@ const sha256 = (str: string) => {
   return Buffer.from(sha.digestSync())
 }
 
-const readContent = async (res: { gas_used: number; stack: TupleReader }): Content => {
-  const contentCell = res.stack.readCell()
+export const readContent = async (stack: TupleReader): Content => {
+  const contentCell = stack.readCell()
   const contentSlice = contentCell.beginParse()
   switch (contentSlice.loadUint(8)) {
     case ONCHAIN_CONTENT_PREFIX:
@@ -83,14 +83,14 @@ export const readNftMetadata = async (client: TonClient, address: string): NftMe
   const nftCollectionAddress = Address.parse(address)
   const res = await client.runMethod(nftCollectionAddress, "get_collection_data")
   res.stack.skip(1)
-  return await readContent(res)
+  return await readContent(res.stack)
 }
 
 export const readJettonMetadata = async (client: TonClient, address: string): JettonMetadata => {
   const jettonMinterAddress = Address.parse(address)
   const res = await client.runMethod(jettonMinterAddress, "get_jetton_data")
   res.stack.skip(3)
-  return await readContent(res)
+  return await readContent(res.stack)
 }
 
 const parseJettonOnchainMetadata = (contentSlice: Slice): JettonOnchainMetadata => {

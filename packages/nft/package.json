@@ -1,5 +1,8 @@
 {
   "name": "nft",
+  "dependencies": {
+    "@libs/ton": "workspace:*"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
@@ -8,6 +11,6 @@
   },
   "scripts": {
     "deploy": "bun --env-file=../../.env blueprint run",
-    "test": "bun --env-file=../../.env test"
+    "test": "bun --env-file=../../.env test --timeout 4444"
   }
 }

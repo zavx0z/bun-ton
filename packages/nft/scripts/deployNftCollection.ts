@@ -1,15 +1,15 @@
-import { Address, beginCell, toNano } from "@ton/core"
+import { Address, toNano } from "@ton/core"
 import { NftCollection } from "../wrappers/NftCollection"
 import { compile, NetworkProvider } from "@ton/blueprint"
 
 export async function run(provider: NetworkProvider) {
-  const randomSeed = Math.floor(Math.random() * 10000)
   const nftCollection = provider.open(
     NftCollection.createFromConfig(
       {
         ownerAddress: provider.sender().address as Address,
         nextItemIndex: 0,
-        collectionContent: beginCell().storeUint(randomSeed, 256).endCell(),
+        collectionContentUrl: "https://zavx0z.github.io/bun-ton/meta/collection.json",
+        commonContentUrl: "https://zavx0z.github.io/bun-ton/meta/",
         nftItemCode: await compile("NftItem"),
         royaltyParams: {
           royaltyFactor: 15,

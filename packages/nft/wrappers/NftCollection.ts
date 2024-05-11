@@ -1,6 +1,19 @@
-import { Address, beginCell, Cell, contractAddress, Dictionary, SendMode, TupleBuilder } from "@ton/core"
-import { Contract, ContractProvider, Sender } from "@ton/core"
+import {
+  Contract,
+  ContractProvider,
+  Sender,
+  Address,
+  beginCell,
+  Cell,
+  contractAddress,
+  Dictionary,
+  SendMode,
+  TupleBuilder,
+  toNano,
+} from "@ton/core"
 import { CollectionMint, MintValue } from "./helpers/collectionHelpers"
+import { encodeOffChainContent, readContent } from "@libs/ton"
+import { NftItemConfig, nftItemConfigToCell } from "./NftItem"
 
 export type RoyaltyParams = {
   royaltyFactor: number
@@ -9,18 +22,26 @@ export type RoyaltyParams = {
 }
 
 export type NftCollectionConfig = {
-  ownerAddress: Address
-  nextItemIndex: number
-  collectionContent: Cell
-  nftItemCode: Cell
-  royaltyParams: RoyaltyParams
+  ownerAddress: Address // Адрес, который будет установлен в качестве владельца нашей коллекции. Только владелец сможет создать новый NFT.
+  nextItemIndex: number // Индекс, который должен иметь следующий элемент NFT.
+  collectionContentUrl: string // URL-адрес метаданных коллекции.
+  commonContentUrl: string // Базовый URL-адрес метаданных элементов NFT
+  nftItemCode: Cell // Код NFT.
+  royaltyParams: RoyaltyParams // Процент от каждой суммы продажи, который будет отправлен на указанный адрес.
 }
 
 export function nftCollectionConfigToCell(config: NftCollectionConfig) {
+  const contentCell = beginCell()
+  const collectionContent = encodeOffChainContent(config.collectionContentUrl)
+  const commonContent = beginCell()
+  commonContent.storeBuffer(Buffer.from(config.commonContentUrl))
+  contentCell.storeRef(collectionContent)
+  contentCell.storeRef(commonContent.asCell())
+
   return beginCell()
-    .storeAddress(config.ownerAddress)
-    .storeUint(config.nextItemIndex, 64)
-    .storeRef(config.collectionContent)
+    .storeAddress(config.ownerAddress) // Адрес владельца коллекции
+    .storeUint(config.nextItemIndex, 64) // Индекс следующего элемента NFT
+    .storeRef(contentCell) // URL-адрес метаданных коллекции
     .storeRef(config.nftItemCode)
     .storeRef(
       beginCell()
@@ -48,35 +69,11 @@ export class NftCollection implements Contract {
       body: beginCell().endCell(),
     })
   }
-  async sendMintNft(
-    provider: ContractProvider,
-    via: Sender,
-    opts: {
-      value: bigint
-      queryId: number
-      itemIndex: number
-      itemOwnerAddress: Address
-      itemContent: string
-      amount: bigint
-    }
-  ) {
-    const nftContent = beginCell()
-    nftContent.storeBuffer(Buffer.from(opts.itemContent))
-
-    const nftMessage = beginCell()
-    nftMessage.storeAddress(opts.itemOwnerAddress)
-    nftMessage.storeRef(nftContent)
-
+  async sendMintNft(provider: ContractProvider, via: Sender, opts: NftItemConfig) {
     await provider.internal(via, {
-      value: opts.value,
+      value: toNano(0.05),
       sendMode: SendMode.PAY_GAS_SEPARATELY,
-      body: beginCell()
-        .storeUint(1, 32) // opcode
-        .storeUint(opts.queryId, 64)
-        .storeUint(opts.itemIndex, 64)
-        .storeCoins(opts.amount)
-        .storeRef(nftMessage)
-        .endCell(),
+      body: nftItemConfigToCell(opts),
     })
   }
   async sendBatchMint(
@@ -106,7 +103,7 @@ export class NftCollection implements Contract {
     const { stack } = await provider.get("get_collection_data", [])
     return {
       nextItemIndex: stack.readNumber(),
-      collectionContent: stack.readCell(),
+      collectionContent: await readContent(stack),
       ownerAddress: stack.readAddress(),
     }
   }

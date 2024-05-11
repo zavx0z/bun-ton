@@ -28,7 +28,7 @@ exports[`metadata parseJettonWalletData 1`] = `
 }
 `;
 
-exports[`metadata parseNftMetadata 1`] = `
+exports[`metadata parseNftCollectionMetadata 1`] = `
 {
   "metadata": {
     "cover_image": "https://richcats.app/api/collection/1/wide_cover",

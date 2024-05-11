@@ -1,0 +1,15 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NftCollection Данные о коллекции 1`] = `
+{
+  "metadata": {
+    "description": "Коллекция zavx0z NFT в testnet",
+    "image": "https://zavx0z.github.io/bun-ton/meta/zavx0z.png",
+    "name": "zavx0z",
+    "social_links": [
+      "https://t.me/+eXVxgpO6WHk5YThi",
+    ],
+  },
+  "persistenceType": "offchain_private_domain",
+}
+`;

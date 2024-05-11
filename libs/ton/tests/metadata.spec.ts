@@ -20,7 +20,7 @@ describe("metadata", () => {
     const jettonWalletData = await readJettonWalletMetadata(client, "EQBhxsx1cHE34hrAM-hRRv7c26G57pe2G6Iw1LTn_5hOuRoV")
     expect(jettonWalletData).toMatchSnapshot()
   })
-  test("parseNftMetadata", async () => {
+  test("parseNftCollectionMetadata", async () => {
     const nftData = await readNftMetadata(client, "EQCvYf5W36a0zQrS_wc6PMKg6JnyTcFU56NPx1PrAW63qpvt")
     expect(nftData).toMatchSnapshot()
   })

@@ -1,6 +1,6 @@
 import { describe, beforeAll, expect, it } from "bun:test"
-import { Blockchain, SandboxContract, TreasuryContract, SendMessageResult, EventAccountCreated } from "@ton/sandbox"
-import { address, beginCell, toNano } from "@ton/core"
+import { Blockchain, SandboxContract, TreasuryContract, type EventAccountCreated } from "@ton/sandbox"
+import { address, toNano } from "@ton/core"
 import { NftCollection } from "../wrappers/NftCollection"
 import "@ton/test-utils"
 import { compile } from "@ton/blueprint"
@@ -18,7 +18,8 @@ describe("NftCollection", () => {
         {
           ownerAddress: deployer.address,
           nextItemIndex: 0,
-          collectionContent: beginCell().storeRef(beginCell().storeUint(4444, 256).endCell()).endCell(),
+          collectionContentUrl: "https://zavx0z.github.io/bun-ton/meta/collection.json",
+          commonContentUrl: "https://zavx0z.github.io/bun-ton/meta/",
           nftItemCode: await compile("NftItem"),
           royaltyParams: {
             royaltyFactor: 15,
@@ -48,16 +49,15 @@ describe("NftCollection", () => {
     const collectionData = await nftCollection.getCollectionData()
     expect(collectionData.ownerAddress.toString()).toEqual(deployer.address.toString())
     expect(collectionData.nextItemIndex).toEqual(0)
-    expect(collectionData.collectionContent).toBeObject()
+    expect(collectionData.collectionContent).toMatchSnapshot()
   })
   it("Адрес NFT Item по индексу", async () => {
     const mintResult = await nftCollection.sendMintNft(deployer.getSender(), {
-      value: toNano(0.05),
-      amount: toNano(0.05),
-      itemIndex: 0,
-      itemOwnerAddress: address(process.env.ADDRESS!),
-      itemContent: "MetaFor test NFT",
       queryId: Date.now(),
+      itemIndex: 0,
+      amount: toNano(0.05),
+      itemOwnerAddress: address(process.env.ADDRESS!),
+      commonContentUrl: "https://zavx0z.github.io/bun-ton/meta/nft.json",
     })
     // @ts-ignore
     expect(mintResult.transactions).toHaveTransaction({

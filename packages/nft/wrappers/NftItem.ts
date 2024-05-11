@@ -1,9 +1,26 @@
-import { Address, beginCell, Cell, Contract, contractAddress, ContractProvider, Sender, SendMode } from "@ton/core"
+import { Contract, ContractProvider, Sender, Address, beginCell, Cell, contractAddress, SendMode } from "@ton/core"
 
-export type NftItemConfig = {}
+export type NftItemConfig = {
+  queryId: number // Идентификатор запроса
+  itemOwnerAddress: Address // Адрес, который будет установлен в качестве владельца элемента
+  itemIndex: number // Индекс элемента в коллекции
+  amount: bigint // Количество TON, которое будет отправлено в NFT при развертывании.
+  commonContentUrl: string // Полная ссылка на URL-адрес элемента может отображаться как «commonContentUrl» коллекции + этот commonContentUrl.
+}
 
 export function nftItemConfigToCell(config: NftItemConfig): Cell {
-  return beginCell().endCell()
+  return beginCell()
+    .storeUint(1, 32) // opcode
+    .storeUint(config.queryId || 0, 64) // query_id
+    .storeUint(config.itemIndex, 64) // item_index
+    .storeCoins(config.amount) // amount
+    .storeRef(
+      beginCell()
+        .storeAddress(config.itemOwnerAddress)
+        .storeRef(beginCell().storeBuffer(Buffer.from(config.commonContentUrl)).endCell())
+        .endCell()
+    ) // common_content_url
+    .endCell()
 }
 
 export class NftItem implements Contract {
