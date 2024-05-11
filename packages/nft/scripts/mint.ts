@@ -15,9 +15,9 @@ export async function run(provider: NetworkProvider, args: string[]) {
   await nftCollection.sendMintNft(provider.sender(), {
     queryId: 0,
     itemOwnerAddress: provider.sender().address as Address,
-    itemIndex: 0,
+    itemIndex: 1,
     amount: toNano(0.05),
-    commonContentUrl: "https://zavx0z.github.io/bun-ton/meta/nft.json",
+    commonContentUrl: "nft.json",
   })
   ui.write("Nft успешно развернут")
 }

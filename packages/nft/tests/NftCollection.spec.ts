@@ -1,25 +1,28 @@
 import { describe, beforeAll, expect, it } from "bun:test"
-import { Blockchain, SandboxContract, TreasuryContract, type EventAccountCreated } from "@ton/sandbox"
-import { address, toNano } from "@ton/core"
+import { Blockchain, SandboxContract, TreasuryContract, EventAccountCreated } from "@ton/sandbox"
+import { address, beginCell, toNano } from "@ton/core"
 import { NftCollection } from "../wrappers/NftCollection"
 import "@ton/test-utils"
 import { compile } from "@ton/blueprint"
 
+const collectionContentUrl = "https://zavx0z.github.io/bun-ton/meta/collection.json"
+const commonContentUrl = "https://zavx0z.github.io/bun-ton/meta/"
+
 describe("NftCollection", () => {
   let nftCollection: SandboxContract<NftCollection>
   let deployer: SandboxContract<TreasuryContract>
-
+  let blockchain: Blockchain
   beforeAll(async () => {
+    blockchain = await Blockchain.create()
     const code = await compile("NftCollection")
-    const blockchain = await Blockchain.create()
     deployer = await blockchain.treasury("deployer")
     nftCollection = blockchain.openContract(
       NftCollection.createFromConfig(
         {
           ownerAddress: deployer.address,
           nextItemIndex: 0,
-          collectionContentUrl: "https://zavx0z.github.io/bun-ton/meta/collection.json",
-          commonContentUrl: "https://zavx0z.github.io/bun-ton/meta/",
+          collectionContentUrl,
+          commonContentUrl,
           nftItemCode: await compile("NftItem"),
           royaltyParams: {
             royaltyFactor: 15,
@@ -57,7 +60,7 @@ describe("NftCollection", () => {
       itemIndex: 0,
       amount: toNano(0.05),
       itemOwnerAddress: address(process.env.ADDRESS!),
-      commonContentUrl: "https://zavx0z.github.io/bun-ton/meta/nft.json",
+      commonContentUrl: "nft.json",
     })
     // @ts-ignore
     expect(mintResult.transactions).toHaveTransaction({
@@ -68,5 +71,27 @@ describe("NftCollection", () => {
     const addressByIndex = await nftCollection.getNftAddressByIndex(0)
     const ev = mintResult.events.find((e) => e.type === "account_created") as EventAccountCreated
     expect(addressByIndex.toString()).toEqual(ev.account.toString())
+  })
+  it("Данные NFT Item по индексу", async () => {
+    const data = await nftCollection.getNftContent(0, beginCell().storeBuffer(Buffer.from("nft.json")).endCell())
+    expect(data).toEqual(commonContentUrl + "nft.json")
+  })
+  it("Данные NFT Item", async () => {
+    const nftItemAddress = await nftCollection.getNftAddressByIndex(0)
+    const { stackReader } = await blockchain.runGetMethod(nftItemAddress, "get_nft_data")
+    const init = stackReader.readNumber()
+    expect(init).toEqual(-1)
+
+    const index = stackReader.readNumber()
+    expect(index).toEqual(0)
+
+    const collection_address = stackReader.readAddress()
+    expect(collection_address.toString()).toEqual(nftCollection.address.toString())
+
+    const ownerAddress = stackReader.readAddress()
+    expect(ownerAddress.toString()).toEqual(process.env.ADDRESS!)
+
+    const nftCollectionContent = await nftCollection.getNftContent(0, stackReader.readCell())
+    expect(nftCollectionContent).toEqual(commonContentUrl + "nft.json")
   })
 })

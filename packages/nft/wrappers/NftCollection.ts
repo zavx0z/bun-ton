@@ -12,7 +12,7 @@ import {
   toNano,
 } from "@ton/core"
 import { CollectionMint, MintValue } from "./helpers/collectionHelpers"
-import { encodeOffChainContent, readContent } from "@libs/ton"
+import { decodeOffChainContent, encodeOffChainContent, readContent } from "@libs/ton"
 import { NftItemConfig, nftItemConfigToCell } from "./NftItem"
 
 export type RoyaltyParams = {
@@ -121,10 +121,11 @@ export class NftCollection implements Contract {
     const { stack } = await provider.get("get_nft_address_by_index", args.build())
     return stack.readAddress()
   }
-  async getNftContent(provider: ContractProvider, index: number) {
+  async getNftContent(provider: ContractProvider, index: number, nftIndividualContent: Cell) {
     let args = new TupleBuilder()
     args.writeNumber(index)
+    args.writeCell(nftIndividualContent)
     const { stack } = await provider.get("get_nft_content", args.build())
-    return stack.readCell()
+    return decodeOffChainContent(stack.readCell())
   }
 }

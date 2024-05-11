@@ -34,7 +34,8 @@ const sha256 = (str: string) => {
 export const readContent = async (stack: TupleReader): Content => {
   const contentCell = stack.readCell()
   const contentSlice = contentCell.beginParse()
-  switch (contentSlice.loadUint(8)) {
+  const prefix = contentSlice.loadUint(8)
+  switch (prefix) {
     case ONCHAIN_CONTENT_PREFIX:
       return {
         persistenceType: "onchain",
