@@ -5,5 +5,5 @@ export {
   readNftMetadata,
   readContent,
 } from "./src/metadata"
-export { encodeOffChainContent } from "./src/encodeOffChain"
-export { decodeOffChainContent } from "./src/decodeOffChainContent"
+export { encodeOffChainContent } from "./src/encodeOffChainContent"
+export { decodeOffChainContent } from "./src/decodeOffChainContent.js"

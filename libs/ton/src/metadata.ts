@@ -11,6 +11,7 @@ import type {
   JettonOnchainMetadata,
   NftMetadata,
 } from "./types"
+import { ONCHAIN_CONTENT_PREFIX, OFFCHAIN_CONTENT_PREFIX } from "./const"
 
 const jettonOnChainMetadataSpec: JettonOnChainMetadataSpec = {
   name: "utf8",
@@ -21,8 +22,6 @@ const jettonOnChainMetadataSpec: JettonOnChainMetadataSpec = {
   image_data: undefined,
 }
 
-const ONCHAIN_CONTENT_PREFIX = 0x00
-const OFFCHAIN_CONTENT_PREFIX = 0x01
 const SNAKE_PREFIX = 0x00
 
 const sha256 = (str: string) => {
